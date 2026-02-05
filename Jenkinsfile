@@ -28,14 +28,14 @@ pipeline {
         }
       }
     }
-    // stage('Build') {
-    //   steps {
-    //     container('my-builder') {
-    //       sh 'npm ci'
-    //       sh 'npm run build'
-    //     }
-    //   }
-    // }
+    stage('Build') {
+      steps {
+        container('my-builder') {
+          sh 'npm ci'
+          sh 'npm run build'
+        }
+      }
+    }
     stage('Test Build') {
       steps {
         container('my-builder') {
