@@ -18,7 +18,13 @@ pipeline {
   //           tty: true
   //     '''
   //   }
-  // }
+  agent {
+    docker {
+      image 'node:20-alpine'
+      args '-u root:root'
+    }
+  }
+  }
   stages {
     stage('Test npm') {
       steps {
