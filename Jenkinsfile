@@ -65,37 +65,43 @@ pipeline {
 
   environment {
     VERCEL_PROJECT_NAME = 'simple-nodejs'
-    VERCEL_TOKEN = credentials('vercel-token')
   }
 
   stages {
     stage('Test npm') {
       steps {
-        bat 'npm --version'
-        bat 'node --version'
+        sh 'npm --version'
+        sh 'node --version'
+      }
+    }
+
+    stage('Install') {
+      steps {
+        sh 'npm ci'
       }
     }
 
     stage('Build') {
       steps {
-        bat 'npm ci'
-        bat 'npm run build'
+        sh 'npm run build'
       }
     }
 
     stage('Test Build') {
       steps {
-        bat 'npm test'
+        sh 'npm test'
       }
     }
 
     stage('Deploy') {
       steps {
-        bat 'npm i -g vercel@latest'
-        bat """
-          vercel link --project %VERCEL_PROJECT_NAME% --token %VERCEL_TOKEN% --yes
-          vercel --token %VERCEL_TOKEN% --prod --confirm
-        """
+        withCredentials([string(credentialsId: 'vercel-token', variable: 'VERCEL_TOKEN')]) {
+          sh 'npm i -g vercel@latest'
+          sh '''
+            vercel link --project "$VERCEL_PROJECT_NAME" --token "$VERCEL_TOKEN" --yes
+            vercel --token "$VERCEL_TOKEN" --prod --confirm
+          '''
+        }
       }
     }
   }
