@@ -61,7 +61,12 @@
 
 
 pipeline {
-  agent any
+  agent {
+    docker {
+      image 'node:20-alpine'
+      args '-u root:root'
+    }
+  }
 
   environment {
     VERCEL_PROJECT_NAME = 'simple-nodejs'
@@ -70,8 +75,8 @@ pipeline {
   stages {
     stage('Test npm') {
       steps {
-        sh 'npm --version'
         sh 'node --version'
+        sh 'npm --version'
       }
     }
 
@@ -106,3 +111,4 @@ pipeline {
     }
   }
 }
+
