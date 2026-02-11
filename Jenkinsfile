@@ -70,7 +70,7 @@ pipeline {
 
   environment {
     VERCEL_PROJECT_NAME = 'simple-nodejs'
-    VERCEL_TOKEN = credentials('devops14-github-token')
+    VERCEL_TOKEN = credentials('vercel-token')
   }
 
   stages {
@@ -101,7 +101,7 @@ pipeline {
 
     stage('Deploy') {
       steps {
-        withCredentials([string(credentialsId: 'devops14-github-token', variable: 'VERCEL_TOKEN')]) {
+        withCredentials([string(credentialsId: 'vercel-token', variable: 'VERCEL_TOKEN')]) {
           sh 'npm i -g vercel@latest'
           sh '''
             vercel link --project "$VERCEL_PROJECT_NAME" --token "$VERCEL_TOKEN" --yes
