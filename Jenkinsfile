@@ -49,18 +49,31 @@ pipeline {
 
       }
     }
+
     stage('Deploy') {
       steps {
-        // container('my-builder') {
-          sh 'npm install -g vercel@latest'
-          // Deploy using token-only (non-interactive)
-          sh '''
-            vercel link --project $VERCEL_PROJECT_NAME --token $VERCEL_TOKEN --yes
-            vercel --token $VERCEL_TOKEN --prod --confirm
-          '''
-        // }
+      withCredentials([string(credentialsId: 'devops14-github-token', variable: 'VERCEL_TOKEN')]) {
+      sh 'npm install -g vercel@latest'
+      sh '''
+        vercel whoami --token "$VERCEL_TOKEN"
+        vercel link --project simple-nodejs --token "$VERCEL_TOKEN" --yes
+        vercel --token "$VERCEL_TOKEN" --prod --confirm
+      '''
+        }
       }
     }
+    // stage('Deploy') {
+    //   steps {
+    //     // container('my-builder') {
+    //       sh 'npm install -g vercel@latest'
+    //       // Deploy using token-only (non-interactive)
+    //       sh '''
+    //         vercel link --project $VERCEL_PROJECT_NAME --token $VERCEL_TOKEN --yes
+    //         vercel --token $VERCEL_TOKEN --prod --confirm
+    //       '''
+    //     // }
+    //   }
+    // }
 
   }
 }
