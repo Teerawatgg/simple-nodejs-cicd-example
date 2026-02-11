@@ -52,7 +52,7 @@ pipeline {
 
     stage('Deploy') {
       steps {
-      withCredentials([string(credentialsId: 'devops14-github-token', variable: 'VERCEL_TOKEN')]) {
+      withCredentials([string(credentialsId: 'vercel-token', variable: 'VERCEL_TOKEN')]) {
       sh 'npm install -g vercel@latest'
       sh '''
         vercel whoami --token "$VERCEL_TOKEN"
