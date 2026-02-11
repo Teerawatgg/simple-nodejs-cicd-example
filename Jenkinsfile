@@ -24,7 +24,6 @@ pipeline {
       args '-u root:root'
     }
   }
-  }
   stages {
     stage('Test npm') {
       steps {
@@ -63,6 +62,7 @@ pipeline {
     }
 
   }
+}
 
 
 // pipeline {
