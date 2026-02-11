@@ -70,6 +70,7 @@ pipeline {
 
   environment {
     VERCEL_PROJECT_NAME = 'simple-nodejs'
+    VERCEL_TOKEN = credentials('devops14-github-token')
   }
 
   stages {
